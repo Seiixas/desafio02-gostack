@@ -63,7 +63,7 @@ app.post('/repositories', (req, res) => {
 
     repositories.push(repository);
 
-    return res.json(repository);
+    return res.status(201).json(repository);
 });
 
 app.put('/repositories/:id', (req, res) => {
