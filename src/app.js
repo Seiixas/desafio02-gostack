@@ -22,8 +22,8 @@ function verifyIfIdIsUuid(req, res, next) {
     const { id } = req.params;
 
     return isUuid(id) ?
-        res.status(400).json({ error: "Id isn't an Uuid" }) :
-        next();
+        next() :
+        res.status(400).json({ error: "Id isn't an Uuid" });
 }
 
 function applicationLog(req, res, next) {
