@@ -1,5 +1,5 @@
 const express = require('express');
-const { uuid } = require('uuidv4');
+const { uuid, isUuid } = require('uuidv4');
 const cors = require('cors');
 
 const app = express();
@@ -15,6 +15,14 @@ function verififyIfRepositoryExists(req, res, next) {
 
     return repIndex < 0 ?
         res.status(400).json({ error: "Repository not found" }) :
+        next();
+}
+
+function verifyIfIdIsUuid(req, res, next) {
+    const { id } = req.params;
+
+    return isUuid(id) ?
+        res.status(400).json({ error: "Id isn't an Uuid" }) :
         next();
 }
 
@@ -43,7 +51,7 @@ function applicationLog(req, res, next) {
     return next();
 }
 
-app.use('/repositories/:id', verififyIfRepositoryExists);
+app.use('/repositories/:id', verifyIfIdIsUuid, verififyIfRepositoryExists);
 app.use(applicationLog);
 
 app.get('/repositories', (req, res) => {
